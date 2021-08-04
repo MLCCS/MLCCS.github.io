@@ -18,7 +18,7 @@ if (isPassword) {
   },
   gitment: ,
   valine: ,
-}</script><meta name="generator" content="Hexo 5.4.0"></head><body><canvas id="universe"></canvas><!--#body--><div id="sidebar"><div class="toggle-sidebar-info button-hover"><span data-toggle="文章目录">站点概览</span></div><div class="sidebar-toc"><div class="sidebar-toc-title">目录</div><div class="sidebar-toc-progress"><span class="progress-notice">您已阅读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc-progress-bar"></div></div><div class="sidebar-toc-content" id="sidebar-toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%99%BB%E9%99%86%E5%90%8D-%E7%94%A8%E6%88%B7%E5%90%8D"><span class="toc-number">1.</span> <span class="toc-text">登陆名&#x2F;用户名</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%99%BB%E5%BD%95%E5%90%8D"><span class="toc-number">1.1.</span> <span class="toc-text">登录名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E5%90%8D"><span class="toc-number">1.2.</span> <span class="toc-text">用户名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%98%A0%E5%B0%84"><span class="toc-number">1.3.</span> <span class="toc-text">映射</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%BA%E6%9C%89%E8%A7%92%E8%89%B2"><span class="toc-number">2.</span> <span class="toc-text">固有角色</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BA%E5%AE%9A%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%A7%92%E8%89%B2"><span class="toc-number">2.1.</span> <span class="toc-text">固定服务器角色</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BA%E5%AE%9A%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A7%92%E8%89%B2"><span class="toc-number">2.2.</span> <span class="toc-text">固定数据库角色</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DBO"><span class="toc-number">3.</span> <span class="toc-text">DBO</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E5%BA%93"><span class="toc-number">4.</span> <span class="toc-text">系统库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MSSQL%E7%89%B9%E6%80%A7"><span class="toc-number">5.</span> <span class="toc-text">MSSQL特性</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F"><span class="toc-number">5.1.</span> <span class="toc-text">全局变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E9%87%8A%E7%AC%A6"><span class="toc-number">5.2.</span> <span class="toc-text">注释符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%97%E5%90%8D%E5%8D%95%E5%8F%8C%E5%BC%95%E5%8F%B7"><span class="toc-number">5.3.</span> <span class="toc-text">列名单双引号</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E6%9D%83%E9%99%90"><span class="toc-number">6.</span> <span class="toc-text">查询权限</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%98%AF%E5%90%A6%E6%98%AFDBMS%E7%AE%A1%E7%90%86%E5%91%98-sa"><span class="toc-number">6.1.</span> <span class="toc-text">是否是DBMS管理员(sa)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%98%AF%E5%90%A6%E6%98%AF%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B1%9E%E4%B8%BB"><span class="toc-number">6.2.</span> <span class="toc-text">是否是数据库属主</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%BA%93-%E8%A1%A8-%E8%A7%86%E5%9B%BE"><span class="toc-number">7.</span> <span class="toc-text">关键库&#x2F;表&#x2F;视图</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#sys-databases"><span class="toc-number">7.1.</span> <span class="toc-text">.sys.databases</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sysobjects"><span class="toc-number">7.2.</span> <span class="toc-text">..sysobjects</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sys-objects"><span class="toc-number">7.3.</span> <span class="toc-text">.sys.objects</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sys-tables"><span class="toc-number">7.4.</span> <span class="toc-text">.sys.tables</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sys-columns"><span class="toc-number">7.5.</span> <span class="toc-text">.sys.columns</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#syscolumns"><span class="toc-number">7.6.</span> <span class="toc-text">..syscolumns</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#information-schema-tables"><span class="toc-number">7.7.</span> <span class="toc-text">.information_schema.tables</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#information-schema-columns"><span class="toc-number">7.8.</span> <span class="toc-text">.information_schema.columns</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0limit"><span class="toc-number">8.</span> <span class="toc-text">实现limit</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0group-concat"><span class="toc-number">9.</span> <span class="toc-text">实现group_concat</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#TIPS"><span class="toc-number">10.</span> <span class="toc-text">TIPS</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0"><span class="toc-number">11.</span> <span class="toc-text">常用函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%B3%A8%E5%85%A5%E6%B5%81%E7%A8%8B"><span class="toc-number">12.</span> <span class="toc-text">基本注入流程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%BA%93%E6%95%B0%E9%87%8F"><span class="toc-number">12.1.</span> <span class="toc-text">获取库数量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%BA%93%E5%90%8D"><span class="toc-number">12.2.</span> <span class="toc-text">获取库名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E8%A1%A8%E6%95%B0%E9%87%8F"><span class="toc-number">12.3.</span> <span class="toc-text">获取表数量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E8%A1%A8%E5%90%8D"><span class="toc-number">12.4.</span> <span class="toc-text">获取表名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%88%97%E6%95%B0%E9%87%8F"><span class="toc-number">12.5.</span> <span class="toc-text">获取列数量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%88%97%E5%90%8D"><span class="toc-number">12.6.</span> <span class="toc-text">获取列名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE"><span class="toc-number">12.7.</span> <span class="toc-text">获取数据</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5"><span class="toc-number">13.</span> <span class="toc-text">报错注入</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E6%8A%A5%E9%94%99"><span class="toc-number">13.1.</span> <span class="toc-text">函数报错</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E7%AE%97%E7%AC%A6%E6%8A%A5%E9%94%99"><span class="toc-number">13.2.</span> <span class="toc-text">运算符报错</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BB%B6%E6%97%B6%E6%B3%A8%E5%85%A5"><span class="toc-number">14.</span> <span class="toc-text">延时注入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Order-By%E5%90%8E%E7%9A%84%E6%B3%A8%E5%85%A5"><span class="toc-number">15.</span> <span class="toc-text">Order By后的注入</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%85%E8%A7%A3%E5%86%B3%E9%97%AE%E9%A2%98"><span class="toc-number">15.1.</span> <span class="toc-text">待解决问题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3"><span class="toc-number">16.</span> <span class="toc-text">参考文档</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info-avatar"><img class="author-info-avatar-img" src="/avatar.png"></div><div class="author-info-name">mlccs</div><div class="author-info-description"></div><div class="author-info-articles"><a class="author-info-articles-archives article-meta" href="/archives"><span class="pull-top">日志</span><span class="pull-bottom">2</span></a><a class="author-info-articles-tags article-meta" href="/tags"><span class="pull-top">标签</span><span class="pull-bottom">2</span></a><a class="author-info-articles-categories article-meta" href="/categories"><span class="pull-top">分类</span><span class="pull-bottom">1</span></a></div></div></div><div id="main-container"><header><div id="menu-outer"><i class="menu-list-icon fas fa-bars"></i><nav id="menu-inner"><a class="menu-item" href="/">首页</a><a class="menu-item" href="/tags">标签</a><a class="menu-item" href="/categories">分类</a><a class="menu-item" href="/archives">归档</a></nav><div class="right-info"><a class="search social-icon"><i class="fas fa-search"></i><span> 搜索</span></a><a class="title-name" href="/">!&gt;-_-&lt;!</a><span id="now-time"></span></div></div></header><div id="content-outer"><div id="content-inner"><article id="post"><div class="post-header"><div class="title">MSSQL注入·一</div><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 发表于 2021-08-04 | 更新于 2021-08-04</time><!--time.button-hover.post-date #[i.fas.fa-calendar-alt.article-icon(aria-hidden="true")] #[=__('post.modified')] #[=date(page['updated'], config.date_format)]--><div class="button-hover categories"><i class="fa fa-inbox article-icon" aria-hidden="true"></i><a class="link-a" href="/categories/WEB/">WEB</a></div><div class="button-hover tags"><i class="fa fa-tag article-icon" aria-hidden="true"></i><a class="link-a" href="/tags/SQL%E6%B3%A8%E5%85%A5/">SQL注入</a></div></div></div><div class="main-content"><p>测试环境：MSSQL 2012 sp1</p>
+}</script><meta name="generator" content="Hexo 5.4.0"></head><body><canvas id="universe"></canvas><!--#body--><div id="sidebar"><div class="toggle-sidebar-info button-hover"><span data-toggle="文章目录">站点概览</span></div><div class="sidebar-toc"><div class="sidebar-toc-title">目录</div><div class="sidebar-toc-progress"><span class="progress-notice">您已阅读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc-progress-bar"></div></div><div class="sidebar-toc-content" id="sidebar-toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%99%BB%E9%99%86%E5%90%8D-%E7%94%A8%E6%88%B7%E5%90%8D"><span class="toc-number">1.</span> <span class="toc-text">登陆名&#x2F;用户名</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%99%BB%E5%BD%95%E5%90%8D"><span class="toc-number">1.1.</span> <span class="toc-text">登录名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E5%90%8D"><span class="toc-number">1.2.</span> <span class="toc-text">用户名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%98%A0%E5%B0%84"><span class="toc-number">1.3.</span> <span class="toc-text">映射</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%BA%E6%9C%89%E8%A7%92%E8%89%B2"><span class="toc-number">2.</span> <span class="toc-text">固有角色</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BA%E5%AE%9A%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%A7%92%E8%89%B2"><span class="toc-number">2.1.</span> <span class="toc-text">固定服务器角色</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BA%E5%AE%9A%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A7%92%E8%89%B2"><span class="toc-number">2.2.</span> <span class="toc-text">固定数据库角色</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DBO"><span class="toc-number">3.</span> <span class="toc-text">DBO</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E5%BA%93"><span class="toc-number">4.</span> <span class="toc-text">系统库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MSSQL%E7%89%B9%E6%80%A7"><span class="toc-number">5.</span> <span class="toc-text">MSSQL特性</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F"><span class="toc-number">5.1.</span> <span class="toc-text">全局变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E9%87%8A%E7%AC%A6"><span class="toc-number">5.2.</span> <span class="toc-text">注释符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%97%E5%90%8D%E5%8D%95%E5%8F%8C%E5%BC%95%E5%8F%B7"><span class="toc-number">5.3.</span> <span class="toc-text">列名单双引号</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E6%9D%83%E9%99%90"><span class="toc-number">6.</span> <span class="toc-text">查询权限</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%98%AF%E5%90%A6%E6%98%AFDBMS%E7%AE%A1%E7%90%86%E5%91%98-sa"><span class="toc-number">6.1.</span> <span class="toc-text">是否是DBMS管理员(sa)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%98%AF%E5%90%A6%E6%98%AF%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B1%9E%E4%B8%BB"><span class="toc-number">6.2.</span> <span class="toc-text">是否是数据库属主</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%BA%93-%E8%A1%A8-%E8%A7%86%E5%9B%BE"><span class="toc-number">7.</span> <span class="toc-text">关键库&#x2F;表&#x2F;视图</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#lt-database-name-gt-sys-databases"><span class="toc-number">7.1.</span> <span class="toc-text">&lt;database_name&gt;.sys.databases</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lt-database-name-gt-sysobjects"><span class="toc-number">7.2.</span> <span class="toc-text">&lt;database_name&gt;..sysobjects</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lt-database-name-gt-sys-objects"><span class="toc-number">7.3.</span> <span class="toc-text">&lt;database_name&gt;.sys.objects</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lt-database-name-gt-sys-tables"><span class="toc-number">7.4.</span> <span class="toc-text">&lt;database_name&gt;.sys.tables</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lt-database-name-gt-sys-columns"><span class="toc-number">7.5.</span> <span class="toc-text">&lt;database_name&gt;.sys.columns</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lt-database-name-gt-syscolumns"><span class="toc-number">7.6.</span> <span class="toc-text">&lt;database_name&gt;..syscolumns</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lt-database-name-gt-information-schema-tables"><span class="toc-number">7.7.</span> <span class="toc-text">&lt;database_name&gt;.information_schema.tables</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lt-database-name-gt-information-schema-columns"><span class="toc-number">7.8.</span> <span class="toc-text">&lt;database_name&gt;.information_schema.columns</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0limit"><span class="toc-number">8.</span> <span class="toc-text">实现limit</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0group-concat"><span class="toc-number">9.</span> <span class="toc-text">实现group_concat</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#TIPS"><span class="toc-number">10.</span> <span class="toc-text">TIPS</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0"><span class="toc-number">11.</span> <span class="toc-text">常用函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%B3%A8%E5%85%A5%E6%B5%81%E7%A8%8B"><span class="toc-number">12.</span> <span class="toc-text">基本注入流程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%BA%93%E6%95%B0%E9%87%8F"><span class="toc-number">12.1.</span> <span class="toc-text">获取库数量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%BA%93%E5%90%8D"><span class="toc-number">12.2.</span> <span class="toc-text">获取库名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E8%A1%A8%E6%95%B0%E9%87%8F"><span class="toc-number">12.3.</span> <span class="toc-text">获取表数量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E8%A1%A8%E5%90%8D"><span class="toc-number">12.4.</span> <span class="toc-text">获取表名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%88%97%E6%95%B0%E9%87%8F"><span class="toc-number">12.5.</span> <span class="toc-text">获取列数量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%88%97%E5%90%8D"><span class="toc-number">12.6.</span> <span class="toc-text">获取列名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE"><span class="toc-number">12.7.</span> <span class="toc-text">获取数据</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5"><span class="toc-number">13.</span> <span class="toc-text">报错注入</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E6%8A%A5%E9%94%99"><span class="toc-number">13.1.</span> <span class="toc-text">函数报错</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E7%AE%97%E7%AC%A6%E6%8A%A5%E9%94%99"><span class="toc-number">13.2.</span> <span class="toc-text">运算符报错</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BB%B6%E6%97%B6%E6%B3%A8%E5%85%A5"><span class="toc-number">14.</span> <span class="toc-text">延时注入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Order-By%E5%90%8E%E7%9A%84%E6%B3%A8%E5%85%A5"><span class="toc-number">15.</span> <span class="toc-text">Order By后的注入</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%85%E8%A7%A3%E5%86%B3%E9%97%AE%E9%A2%98"><span class="toc-number">15.1.</span> <span class="toc-text">待解决问题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3"><span class="toc-number">16.</span> <span class="toc-text">参考文档</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info-avatar"><img class="author-info-avatar-img" src="/avatar.png"></div><div class="author-info-name">mlccs</div><div class="author-info-description"></div><div class="author-info-articles"><a class="author-info-articles-archives article-meta" href="/archives"><span class="pull-top">日志</span><span class="pull-bottom">2</span></a><a class="author-info-articles-tags article-meta" href="/tags"><span class="pull-top">标签</span><span class="pull-bottom">2</span></a><a class="author-info-articles-categories article-meta" href="/categories"><span class="pull-top">分类</span><span class="pull-bottom">1</span></a></div></div></div><div id="main-container"><header><div id="menu-outer"><i class="menu-list-icon fas fa-bars"></i><nav id="menu-inner"><a class="menu-item" href="/">首页</a><a class="menu-item" href="/tags">标签</a><a class="menu-item" href="/categories">分类</a><a class="menu-item" href="/archives">归档</a></nav><div class="right-info"><a class="search social-icon"><i class="fas fa-search"></i><span> 搜索</span></a><a class="title-name" href="/">!&gt;-_-&lt;!</a><span id="now-time"></span></div></div></header><div id="content-outer"><div id="content-inner"><article id="post"><div class="post-header"><div class="title">MSSQL注入·一</div><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 发表于 2021-08-04 | 更新于 2021-08-05</time><!--time.button-hover.post-date #[i.fas.fa-calendar-alt.article-icon(aria-hidden="true")] #[=__('post.modified')] #[=date(page['updated'], config.date_format)]--><div class="button-hover categories"><i class="fa fa-inbox article-icon" aria-hidden="true"></i><a class="link-a" href="/categories/WEB/">WEB</a></div><div class="button-hover tags"><i class="fa fa-tag article-icon" aria-hidden="true"></i><a class="link-a" href="/tags/SQL%E6%B3%A8%E5%85%A5/">SQL注入</a></div></div></div><div class="main-content"><p>测试环境：MSSQL 2012 sp1</p>
 <h1 id="登陆名-用户名"><a href="#登陆名-用户名" class="headerlink" title="登陆名/用户名"></a>登陆名/用户名</h1><h2 id="登录名"><a href="#登录名" class="headerlink" title="登录名"></a>登录名</h2><p>​        服务器上的一个实体，使用一个登录名只能进入服务器，不能访问服务器中的数据库资源。服务器上登录名的定义存放在master数据库的syslogins表中。</p>
 <h2 id="用户名"><a href="#用户名" class="headerlink" title="用户名"></a>用户名</h2><p>​        一个或多个登录对象在数据库中的映射，可以对用户对象进行授权，以便为登录对象提供对数据库的访问权限。用户定义信息存放在每个数据库的sysusers表中。</p>
 <h2 id="映射"><a href="#映射" class="headerlink" title="映射"></a>映射</h2><p>​        MSSQL把登录名与用户名的关系称为映射。用登录名登录MSSQL后，在访问各个数据库时，MSSQL会自动查询此数据库中是否存在与此登录名关联的用户名，若存在就使用此用户的权限访问此数据库，若不存在就是用guest用户访问此数据库。</p>
@@ -29,47 +29,55 @@ if (isPassword) {
 <h2 id="固定服务器角色"><a href="#固定服务器角色" class="headerlink" title="固定服务器角色"></a>固定服务器角色</h2><table>
 <thead>
 <tr>
-<th>sysadmin</th>
-<th>可以在 SQL Server 中执行任何活动</th>
+<th align="left">角色名</th>
+<th align="left">权限</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>serveradmin</td>
-<td>可以设置服务器范围的配置选项，关闭服务器</td>
+<td align="left">sysadmin</td>
+<td align="left">可以在 SQL Server 中执行任何活动</td>
 </tr>
 <tr>
-<td>setupadmin</td>
-<td>可以管理链接服务器和启动过程</td>
+<td align="left">serveradmin</td>
+<td align="left">可以设置服务器范围的配置选项，关闭服务器</td>
 </tr>
 <tr>
-<td>securityadmin</td>
-<td>可以管理登录和 CREATE DATABASE 权限，还可以读取错误日志和更改密码</td>
+<td align="left">setupadmin</td>
+<td align="left">可以管理链接服务器和启动过程</td>
 </tr>
 <tr>
-<td>processadmin</td>
-<td>可以管理在 SQL Server 中运行的进程</td>
+<td align="left">securityadmin</td>
+<td align="left">可以管理登录和 CREATE DATABASE 权限，还可以读取错误日志和更改密码</td>
 </tr>
 <tr>
-<td>dbcreator</td>
-<td>可以创建、更改和删除数据库</td>
+<td align="left">processadmin</td>
+<td align="left">可以管理在 SQL Server 中运行的进程</td>
 </tr>
 <tr>
-<td>diskadmin</td>
-<td>可以管理磁盘文件</td>
+<td align="left">dbcreator</td>
+<td align="left">可以创建、更改和删除数据库</td>
 </tr>
 <tr>
-<td>bulkadmin</td>
-<td>可以执行 BULK INSERT 语句</td>
+<td align="left">diskadmin</td>
+<td align="left">可以管理磁盘文件</td>
+</tr>
+<tr>
+<td align="left">bulkadmin</td>
+<td align="left">可以执行 BULK INSERT 语句</td>
 </tr>
 </tbody></table>
 <h2 id="固定数据库角色"><a href="#固定数据库角色" class="headerlink" title="固定数据库角色"></a>固定数据库角色</h2><table>
 <thead>
 <tr>
-<th>db_owner</th>
-<th>在数据库中有全部权限</th>
+<th>角色名</th>
+<th>权限</th>
 </tr>
 </thead>
 <tbody><tr>
+<td>db_owner</td>
+<td>在数据库中有全部权限</td>
+</tr>
+<tr>
 <td>db_accessadmin</td>
 <td>可以添加或删除用户 ID</td>
 </tr>
@@ -118,24 +126,28 @@ if (isPassword) {
 <h1 id="MSSQL特性"><a href="#MSSQL特性" class="headerlink" title="MSSQL特性"></a>MSSQL特性</h1><h2 id="全局变量"><a href="#全局变量" class="headerlink" title="全局变量"></a>全局变量</h2><table>
 <thead>
 <tr>
-<th>@@version</th>
-<th></th>
+<th align="left">变量</th>
+<th>含义</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>DB_NAME()</td>
+<td align="left">@@version</td>
+<td></td>
+</tr>
+<tr>
+<td align="left">DB_NAME()</td>
 <td>当前数据库，可使用DB_NAME(<id>)遍历库名</td>
 </tr>
 <tr>
-<td>CURRENT_USER</td>
+<td align="left">CURRENT_USER</td>
 <td>表示当前数据库用户名，比如：dbo</td>
 </tr>
 <tr>
-<td>SYSTEM_USER</td>
+<td align="left">SYSTEM_USER</td>
 <td>表示当前登录名，比如：MYCOMPUTER\Administrator、sa</td>
 </tr>
 <tr>
-<td>USER</td>
+<td align="left">USER</td>
 <td>表示当前数据库属主，比如：dbo</td>
 </tr>
 </tbody></table>
@@ -146,32 +158,32 @@ if (isPassword) {
 
 <h2 id="是否是数据库属主"><a href="#是否是数据库属主" class="headerlink" title="是否是数据库属主"></a>是否是数据库属主</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> is_member(<span class="string">&#x27;db_owner&#x27;</span>)</span><br><span class="line"><span class="keyword">select</span> <span class="keyword">user</span>;</span><br><span class="line"><span class="keyword">select</span> <span class="built_in">current_user</span>;</span><br><span class="line"><span class="keyword">select</span> <span class="keyword">case</span> <span class="keyword">when</span> <span class="keyword">user</span><span class="operator">=</span><span class="string">&#x27;dbo&#x27;</span> <span class="keyword">then</span> <span class="number">1</span> <span class="keyword">else</span> <span class="number">0</span> <span class="keyword">end</span>; </span><br></pre></td></tr></table></figure>
 
-<h1 id="关键库-表-视图"><a href="#关键库-表-视图" class="headerlink" title="关键库/表/视图"></a>关键库/表/视图</h1><h2 id="sys-databases"><a href="#sys-databases" class="headerlink" title=".sys.databases"></a><database_name>.sys.databases</h2><p>每个数据库都有的视图，其中包含了DBMS中所有数据库的描述信息</p>
+<h1 id="关键库-表-视图"><a href="#关键库-表-视图" class="headerlink" title="关键库/表/视图"></a>关键库/表/视图</h1><h2 id="lt-database-name-gt-sys-databases"><a href="#lt-database-name-gt-sys-databases" class="headerlink" title="&lt;database_name&gt;.sys.databases"></a>&lt;database_name&gt;.sys.databases</h2><p>每个数据库都有的视图，其中包含了DBMS中所有数据库的描述信息</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> name <span class="keyword">from</span> test01.sys.databases				<span class="comment">-- 用户自己创建的库id从7开始</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210804004202175.png" alt="image-20210804004202175"></p>
-<h2 id="sysobjects"><a href="#sysobjects" class="headerlink" title="..sysobjects"></a><database_name>..sysobjects</h2><p>每个数据库都有的视图，在指定数据库中创建的每个对象(例如约束、默认值、日志、规则以及存储过程)都对应一行</p>
+<h2 id="lt-database-name-gt-sysobjects"><a href="#lt-database-name-gt-sysobjects" class="headerlink" title="&lt;database_name&gt;..sysobjects"></a>&lt;database_name&gt;..sysobjects</h2><p>每个数据库都有的视图，在指定数据库中创建的每个对象(例如约束、默认值、日志、规则以及存储过程)都对应一行</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test01..sysobjects <span class="keyword">where</span> xtype<span class="operator">=</span><span class="string">&#x27;U&#x27;</span>;			<span class="comment">-- 查询test01库中用户创建的表</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210803110749243.png" alt="image-20210803110749243"></p>
-<h2 id="sys-objects"><a href="#sys-objects" class="headerlink" title=".sys.objects"></a><database_name>.sys.objects</h2><p>每个数据库都有的视图，在指定数据库中创建的每个对象(例如约束、默认值、日志、规则以及存储过程)都对应一行</p>
+<h2 id="lt-database-name-gt-sys-objects"><a href="#lt-database-name-gt-sys-objects" class="headerlink" title="&lt;database_name&gt;.sys.objects"></a>&lt;database_name&gt;.sys.objects</h2><p>每个数据库都有的视图，在指定数据库中创建的每个对象(例如约束、默认值、日志、规则以及存储过程)都对应一行</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test01.sys.objects <span class="keyword">where</span> type<span class="operator">=</span><span class="string">&#x27;U&#x27;</span>;		<span class="comment">-- 查询用户创建的表</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210803111126581.png" alt="image-20210803111126581"></p>
-<h2 id="sys-tables"><a href="#sys-tables" class="headerlink" title=".sys.tables"></a><database_name>.sys.tables</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test01.sys.tables;			<span class="comment">-- 查询指定数据库中的用户表</span></span><br></pre></td></tr></table></figure>
+<h2 id="lt-database-name-gt-sys-tables"><a href="#lt-database-name-gt-sys-tables" class="headerlink" title="&lt;database_name&gt;.sys.tables"></a>&lt;database_name&gt;.sys.tables</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test01.sys.tables;			<span class="comment">-- 查询指定数据库中的用户表</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210803112733474.png" alt="image-20210803112733474"></p>
-<h2 id="sys-columns"><a href="#sys-columns" class="headerlink" title=".sys.columns"></a><database_name>.sys.columns</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> testuser01.sys.columns <span class="keyword">where</span> object_id<span class="operator">=</span>OBJECT_ID(<span class="string">&#x27;test01..users&#x27;</span>);		<span class="comment">-- 获取指定表的列名</span></span><br></pre></td></tr></table></figure>
+<h2 id="lt-database-name-gt-sys-columns"><a href="#lt-database-name-gt-sys-columns" class="headerlink" title="&lt;database_name&gt;.sys.columns"></a>&lt;database_name&gt;.sys.columns</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> testuser01.sys.columns <span class="keyword">where</span> object_id<span class="operator">=</span>OBJECT_ID(<span class="string">&#x27;test01..users&#x27;</span>);		<span class="comment">-- 获取指定表的列名</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210803132432805.png" alt="image-20210803132432805"></p>
-<h2 id="syscolumns"><a href="#syscolumns" class="headerlink" title="..syscolumns"></a><database_name>..syscolumns</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test01..syscolumns <span class="keyword">where</span> id<span class="operator">=</span>OBJECT_ID(<span class="string">&#x27;test01..users&#x27;</span>);		<span class="comment">-- 获取指定表的列名</span></span><br></pre></td></tr></table></figure>
+<h2 id="lt-database-name-gt-syscolumns"><a href="#lt-database-name-gt-syscolumns" class="headerlink" title="&lt;database_name&gt;..syscolumns"></a>&lt;database_name&gt;..syscolumns</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test01..syscolumns <span class="keyword">where</span> id<span class="operator">=</span>OBJECT_ID(<span class="string">&#x27;test01..users&#x27;</span>);		<span class="comment">-- 获取指定表的列名</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210803133600422.png" alt="image-20210803133600422"></p>
-<h2 id="information-schema-tables"><a href="#information-schema-tables" class="headerlink" title=".information_schema.tables"></a><database_name>.information_schema.tables</h2><p>MSSQL中也有一个information_schema，但这个information_schema并不是一个数据库，而是一个架构。</p>
+<h2 id="lt-database-name-gt-information-schema-tables"><a href="#lt-database-name-gt-information-schema-tables" class="headerlink" title="&lt;database_name&gt;.information_schema.tables"></a>&lt;database_name&gt;.information_schema.tables</h2><p>MSSQL中也有一个information_schema，但这个information_schema并不是一个数据库，而是一个架构。</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test01.INFORMATION_SCHEMA.TABLES;</span><br></pre></td></tr></table></figure>
 
 <p><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210804003345986.png" alt="image-20210804003345986"></p>
-<h2 id="information-schema-columns"><a href="#information-schema-columns" class="headerlink" title=".information_schema.columns"></a><database_name>.information_schema.columns</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test01.INFORMATION_SCHEMA.COLUMNS <span class="keyword">WHERE</span> TABLE_NAME<span class="operator">=</span><span class="string">&#x27;users&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="lt-database-name-gt-information-schema-columns"><a href="#lt-database-name-gt-information-schema-columns" class="headerlink" title="&lt;database_name&gt;.information_schema.columns"></a>&lt;database_name&gt;.information_schema.columns</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test01.INFORMATION_SCHEMA.COLUMNS <span class="keyword">WHERE</span> TABLE_NAME<span class="operator">=</span><span class="string">&#x27;users&#x27;</span>;</span><br></pre></td></tr></table></figure>
 
 <p><img src="SQL%E6%B3%A8%E5%85%A5-MSSQL.assets/image-20210804003606915.png" alt="image-20210804003606915"></p>
 <h1 id="实现limit"><a href="#实现limit" class="headerlink" title="实现limit"></a>实现limit</h1><p>MSSQL中不支持limit关键字,可使用TOP和not in组合实现limit功能</p>
@@ -213,49 +225,49 @@ if (isPassword) {
 <table>
 <thead>
 <tr>
-<th>函数</th>
-<th>报错用法示例</th>
+<th align="left">函数</th>
+<th align="left">报错用法示例</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>CONVERT()</td>
-<td>CONVERT(int,DB_NAME())</td>
+<td align="left">CONVERT()</td>
+<td align="left">CONVERT(int,DB_NAME())</td>
 </tr>
 <tr>
-<td>CAST()</td>
-<td>CAST(DB_NAME() as int)</td>
+<td align="left">CAST()</td>
+<td align="left">CAST(DB_NAME() as int)</td>
 </tr>
 <tr>
-<td>FILE_NAME ()</td>
-<td>file_name(DB_NAME())</td>
+<td align="left">FILE_NAME ()</td>
+<td align="left">file_name(DB_NAME())</td>
 </tr>
 <tr>
-<td>DB_NAME()</td>
-<td>db_name(DB_NAME())</td>
+<td align="left">DB_NAME()</td>
+<td align="left">db_name(DB_NAME())</td>
 </tr>
 <tr>
-<td>COL_NAME()</td>
-<td>COL_NAME(DB_NAME(),1)</td>
+<td align="left">COL_NAME()</td>
+<td align="left">COL_NAME(DB_NAME(),1)</td>
 </tr>
 <tr>
-<td>FILEGROUP_NAME()</td>
-<td>FILEGROUP_NAME(DB_NAME())</td>
+<td align="left">FILEGROUP_NAME()</td>
+<td align="left">FILEGROUP_NAME(DB_NAME())</td>
 </tr>
 <tr>
-<td>OBJECT_NAME()</td>
-<td>OBJECT_NAME(DB_NAME(),1)</td>
+<td align="left">OBJECT_NAME()</td>
+<td align="left">OBJECT_NAME(DB_NAME(),1)</td>
 </tr>
 <tr>
-<td>SCHEMA_NAME()</td>
-<td>SCHEMA_NAME(DB_NAME())</td>
+<td align="left">SCHEMA_NAME()</td>
+<td align="left">SCHEMA_NAME(DB_NAME())</td>
 </tr>
 <tr>
-<td>TYPE_NAME()</td>
-<td>TYPE_NAME(DB_NAME())</td>
+<td align="left">TYPE_NAME()</td>
+<td align="left">TYPE_NAME(DB_NAME())</td>
 </tr>
 <tr>
-<td>USER_NAME()</td>
-<td>USER_NAME(DB_NAME())</td>
+<td align="left">USER_NAME()</td>
+<td align="left">USER_NAME(DB_NAME())</td>
 </tr>
 </tbody></table>
 <p><strong>CONVERT()</strong></p>
